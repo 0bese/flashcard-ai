@@ -24,6 +24,7 @@ import { Lightbulb, WandSparkles } from "lucide-react";
 import { RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { db } from "@/firebase";
 
 const Home = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -49,15 +50,17 @@ const Home = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("This is the text", text);
     fetch("api/generate", {
       method: "POST",
       body: text,
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("🚀", data);
         const shuffledColors = shuffle([...colors]);
         setColors(shuffledColors);
-        setFlashcards(data);
+        setFlashcards(data.flashcards);
       });
   };
 
@@ -75,6 +78,39 @@ const Home = () => {
     setOpen(false);
   };
 
+  const saveFlashcards = async () => {
+    if (!name) {
+      alert("Please enter a name");
+      return;
+    }
+
+    const batch = writeBatch(db);
+    const userDocRef = doc(collection(db, "users"), user.id);
+    const docSnap = await getDoc(userDocRef);
+
+    if (docSnap.exists()) {
+      const collections = docSnap.data().flashcards || [];
+      if (collections.find((f) => f.name === name)) {
+        alert("Flashcard collection with same name already exists. ");
+        return;
+      } else {
+        collections.push({ name });
+        batch.set(userDocRef, { flashcards: collections }, { merge: true });
+      }
+    } else {
+      batch.set(userDocRef, { flashcards: [{ name }] });
+    }
+
+    const colRef = collection(userDocRef, name);
+    flashcards.forEach((flashcard) => {
+      const cardDocREF = doc(colRef);
+      batch.set(cardDocREF, flashcard);
+    });
+    await batch.comit();
+    handleClose();
+    router.push("/flashcards");
+  };
+
   return (
     <section className="w-full py-12 md:py-16 lg:py-20 flex flex-col">
       <div className="container px-4 md:px-6">
@@ -88,10 +124,17 @@ const Home = () => {
           <div className="grid gap-4">
             <Textarea
               placeholder="Enter text to generate flashcards..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
               className="resize-none rounded-md border border-input bg-transparent p-4 text-sm shadow-sm transition-colors focus:outline-none focus:ring-1 focus:ring-primary focus:placeholder-transparent"
               rows={4}
             />
-            <Button onClick={handleSubmit}>
+            <Button
+              onClick={() => {
+                handleSubmit();
+                // setText("");
+              }}
+            >
               Generate <WandSparkles size={15} className="ml-2" />
             </Button>
           </div>
@@ -112,7 +155,7 @@ const Home = () => {
                   style={{ backgroundColor: colors[index % colors.length] }}
                   key={index}
                   onClick={() => handleCardClick(index)}
-                  className={` h-full w-full transition-all rounded-lg border-4 [transform-style:preserve-3d]  border-white shadow-lg duration-5000 hover:shadow-xl relative ${
+                  className={` h-full w-full transition-all rounded-lg border-4 [transform-style:preserve-3d]  border-white shadow-lg duration-500 hover:shadow-xl relative ${
                     flipped[index]
                       ? "[transform:rotateY(180deg)]"
                       : "[transform:rotateY(0deg)]"
@@ -157,7 +200,9 @@ const Home = () => {
               />
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Confirm</AlertDialogAction>
+                <AlertDialogAction onClick={() => saveFlashcards}>
+                  Confirm
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

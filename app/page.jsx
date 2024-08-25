@@ -60,7 +60,7 @@ export default function Landingpage() {
                   </Link> */}
                 </div>
               </div>
-              <img
+              <Image
                 src="/placeholder.svg"
                 width="550"
                 height="550"
@@ -81,8 +81,8 @@ export default function Landingpage() {
                   Unlock Your Learning Potential
                 </h2>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  FlashcardAI's advanced features help you learn faster and more
-                  effectively.
+                  FlashcardAI&apos;s advanced features help you learn faster and
+                  more effectively.
                 </p>
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function Landingpage() {
                   </li>
                 </ul>
               </div>
-              <img
+              <Image
                 src="/placeholder.svg"
                 width="550"
                 height="310"
@@ -163,9 +163,10 @@ export default function Landingpage() {
                     </div>
                   </div>
                   <p className="text-muted-foreground">
-                    "FlashcardAI has been a game-changer for my learning
+                    &quot;FlashcardAI has been a game-changer for my learning
                     process. The personalized algorithms and spaced repetition
-                    have helped me retain information much more effectively."
+                    have helped me retain information much more
+                    effectively.&quot;
                   </p>
                 </div>
               </Card>
@@ -185,10 +186,10 @@ export default function Landingpage() {
                     </div>
                   </div>
                   <p className="text-muted-foreground">
-                    "I've tried countless flashcard apps, but FlashcardAI is by
-                    far the most effective. The analytics and insights have
-                    helped me optimize my study time and achieve my learning
-                    goals."
+                    &quot;I&apos;ve tried countless flashcard apps, but
+                    FlashcardAI is by far the most effective. The analytics and
+                    insights have helped me optimize my study time and achieve
+                    my learning goals.&quot;
                   </p>
                 </div>
               </Card>
@@ -214,7 +215,7 @@ export default function Landingpage() {
                   </p>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold">$9</span>
+                  <span className="text-4xl font-bold">$5</span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
                 <ul className="grid gap-2 text-muted-foreground">
@@ -243,7 +244,7 @@ export default function Landingpage() {
                   </p>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold">$29</span>
+                  <span className="text-4xl font-bold">$9</span>
                   <span className="text-primary-foreground">/month</span>
                 </div>
                 <ul className="grid gap-2 text-primary-foreground">
@@ -276,7 +277,7 @@ export default function Landingpage() {
                   </p>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold">$99</span>
+                  <span className="text-4xl font-bold">$13</span>
                   <span className="text-muted-foreground">/month</span>
                 </div>
                 <ul className="grid gap-2 text-muted-foreground">
