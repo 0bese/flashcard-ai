@@ -23,8 +23,9 @@ import { useUser } from "@clerk/nextjs";
 import { Lightbulb, WandSparkles } from "lucide-react";
 import { RocketIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { db } from "@/firebase";
+import { doc, collection, getDoc, writeBatch } from "firebase/firestore";
 
 const Home = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -57,7 +58,6 @@ const Home = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("🚀", data);
         const shuffledColors = shuffle([...colors]);
         setColors(shuffledColors);
         setFlashcards(data.flashcards);
@@ -103,10 +103,10 @@ const Home = () => {
 
     const colRef = collection(userDocRef, name);
     flashcards.forEach((flashcard) => {
-      const cardDocREF = doc(colRef);
-      batch.set(cardDocREF, flashcard);
+      const cardDocRef = doc(colRef);
+      batch.set(cardDocRef, flashcard);
     });
-    await batch.comit();
+    await batch.commit();
     handleClose();
     router.push("/flashcards");
   };
@@ -132,7 +132,7 @@ const Home = () => {
             <Button
               onClick={() => {
                 handleSubmit();
-                // setText("");
+                setText("");
               }}
             >
               Generate <WandSparkles size={15} className="ml-2" />
@@ -196,11 +196,13 @@ const Home = () => {
               </AlertDialogHeader>
               <Input
                 placeholder="Collection name..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="focus:placeholder-transparent placeholder:text-gray-400"
               />
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => saveFlashcards}>
+                <AlertDialogAction onClick={() => saveFlashcards()}>
                   Confirm
                 </AlertDialogAction>
               </AlertDialogFooter>
