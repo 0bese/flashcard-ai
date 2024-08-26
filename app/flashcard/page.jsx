@@ -28,6 +28,9 @@ export default function Flashcard() {
     "#BEAEE2",
   ]);
 
+  const shuffle = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
   const searchParams = useSearchParams();
   const search = searchParams.get("id");
 
@@ -35,18 +38,20 @@ export default function Flashcard() {
     async function getFlashcard() {
       if (!search || !user) return;
       const colRef = collection(doc(collection(db, "users"), user.id), search);
+      console.log("This is colref🚀", colRef);
       const docs = await getDocs(colRef);
       const flashcards = [];
 
       docs.forEach((doc) => {
         flashcards.push({ id: doc.id, ...doc.data() });
-        const shuffledColors = shuffle([...colors]);
-        setColors(shuffledColors);
-        setFlashcards(flashcards);
       });
+      const shuffledColors = shuffle([...colors]);
+      setColors(shuffledColors);
+      setFlashcards(flashcards);
     }
     getFlashcard();
-  }, [user, search, colors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, search]);
 
   const handleCardClick = async (id) => {
     setFlipped((prev) => ({
@@ -58,14 +63,12 @@ export default function Flashcard() {
   if (!isLoaded || !isSignedIn) {
     return <></>;
   }
-  const shuffle = (array) => {
-    return array.sort(() => Math.random() - 0.5);
-  };
 
   return (
     <>
       {flashcards.length > 0 && (
         <section className="container flex flex-col items-center justify-center">
+          <h2 className="block text-2xl font-semibold mt-4">{search}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4 md:p-6">
             {flashcards.map((flashcard, index) => (
               <div

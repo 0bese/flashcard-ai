@@ -44,7 +44,7 @@ export default function Flashcards() {
       {flashcards.map((flashcard, index) => (
         <Card
           key={index}
-          onClick={() => handleCardClick(index)}
+          onClick={() => handleCardClick(flashcard.name)}
           className="flex w-[300px] h-20 p-4 rounded-lg shadow-md hover:shadow-lg hover:border-blue-500 transition-shadow cursor-pointer"
         >
           <div className="flex items-center justify-center gap-4 w-full">
