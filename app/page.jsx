@@ -51,21 +51,14 @@ export default function Landingpage() {
                   >
                     Get Started
                   </Link>
-                  {/*  <Link
-                    href="#"
-                    className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                    prefetch={false}
-                  >
-                    Learn More
-                  </Link> */}
                 </div>
               </div>
               <Image
-                src="/placeholder.svg"
+                src="/hero.png"
                 width="550"
                 height="550"
                 alt="Hero"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-bottom sm:w-full lg:order-last lg:aspect-square"
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-bottom sm:w-full lg:order-last lg:aspect-square"
               />
             </div>
           </div>
@@ -121,7 +114,7 @@ export default function Landingpage() {
                 </ul>
               </div>
               <Image
-                src="/placeholder.svg"
+                src="/ft.png"
                 width="550"
                 height="310"
                 alt="Features"
